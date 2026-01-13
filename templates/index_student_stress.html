@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prediksi Tingkat Stres Siswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark-subtle">
+
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0 text-center">Kuisioner Prediksi Tingkat Stres Siswa</h3>
+            </div>
+            <div class="card-body bg-dark">
+                <label class="form-label fw-bold text-white" for="nama">Masukkan Nama Anda </label>
+                <input type="text" name="nama" class="form-control" id="nama" placeholder="Masukkan Nama Anda" required>
+                <hr>
+                
+                <form action="/predict" method="POST">
+                    {% for item in kuisioner %}
+                    <div class="mb-4 text-white">
+                        <label class="form-label fw-bold">{{ loop.index }}. {{ item.question }}</label>
+                        <div class="input-group">
+                            <input type="number" 
+                                step="{{ item.step | default(0.1) }}" 
+                                name="{{ item.name }}" 
+                                class="form-control" 
+                                required 
+                                placeholder="Masukkan nilai antara {{ item.min }} hingga {{ item.max }}"
+                                min="{{ item.min }}" 
+                                max="{{ item.max }}">
+                            <span class="input-group-text">{{ item.unit }}</span>
+                        </div>
+                        <small class="form-text text-muted">Range: {{ item.min }} - {{ item.max }} {{ item.unit }}</small>
+                    </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-danger w-100">Lihat Hasil Prediksi Tingkat Stres</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const namaInput = document.getElementById("nama");
+        
+        // Simpan nama pengguna ke localStorage saat formulir disubmit
+        if (namaInput) {
+            form.addEventListener("submit", function () {
+                const nama = namaInput.value;
+                localStorage.setItem("namaUser", nama);
+            });
+        }
+    });
+</script>

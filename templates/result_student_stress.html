@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hasil Prediksi Tingkat Stres Siswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .scroll-box {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body class="bg-dark-subtle d-flex align-items-center" style="min-height: 100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg mb-4">
+                    <div class="card-header bg-danger text-white text-center">
+                        <h4 class="mb-0">Hasil Prediksi Tingkat Stres Siswa</h4>
+                    </div>
+                    <div class="card-body text-center bg-dark">
+                        <h5 class="mb-3 text-white">Tingkat Stres Siswa <strong id="output-nama"></strong> saat ini adalah:</h5>
+                        <h1 class="display-5 fw-bold 
+                            {% if result == 'Low' %}text-success
+                            {% elif result == 'Moderate' %}text-warning
+                            {% elif result == 'High' %}text-danger
+                            {% endif %}">
+                            {{ result_label }}
+                        </h1>
+
+                        <div class="scroll-box text-start mt-4 mb-4">
+                            Tingkat stres Anda adalah cerminan dari keseimbangan antara beban akademik, dukungan sosial, dan gaya hidup sehat. Penting untuk mengelola stres agar tidak mengganggu performa belajar dan kesehatan mental.<br><br>
+                            Berikut analisis dan saran spesifik berdasarkan prediksi tingkat stres Anda:
+                            <hr>
+                            {% if result == "Low" %}
+                            <h5><strong>Tingkat Stres Rendah (Low) ✅</strong></h5>
+                            <p><strong>Analisis:</strong> Anda menunjukkan kemampuan adaptasi dan keseimbangan hidup yang sangat baik. Anda berhasil menyeimbangkan tuntutan akademik dengan waktu istirahat dan kegiatan fisik. Ini adalah fondasi ideal untuk sukses jangka panjang.</p>
+                            <p><strong>Rekomendasi Utama:</strong>
+                            <ul>
+                                <li>**Pertahankan Konsistensi:** Jangan mengubah rutinitas sehat Anda (tidur, diet, olahraga) secara drastis, terutama menjelang masa-masa ujian.</li>
+                                <li>**Bantu Teman:** Gunakan energi positif dan strategi manajemen stres Anda untuk mendukung teman-teman yang mungkin sedang kesulitan.</li>
+                                <li>**Tantangan Bertahap:** Ambil tantangan akademik atau ekstrakurikuler baru secara bertahap untuk menjaga stimulasi tanpa membebani diri.</li>
+                            </ul>
+                            </p>
+                            {% elif result == "Moderate" %}
+                            <h5><strong>Tingkat Stres Sedang (Moderate) ⚠️</strong></h5>
+                            <p><strong>Analisis:</strong> Anda mungkin merasakan tekanan sesekali, yang normal bagi seorang siswa. Tingkat ini sering terjadi ketika ada peningkatan beban belajar (misalnya menjelang ujian) atau penurunan waktu istirahat. Anda masih memiliki kendali untuk menanganinya.</p>
+                            <p><strong>Rekomendasi Utama:</strong>
+                            <ul>
+                                <li>**Manajemen Waktu Belajar:** Terapkan teknik belajar terstruktur (misalnya Teknik Pomodoro) untuk mengoptimalkan waktu belajar dan memastikan ada waktu istirahat yang cukup.</li>
+                                <li>**Prioritaskan Kualitas Tidur:** Walaupun jam tidur mungkin sedikit berkurang, pastikan kualitas tidur tetap baik. Jauhkan gawai 30 menit sebelum tidur.</li>
+                                <li>**Sosial dan Hobi:** Pastikan Anda tetap menyisihkan waktu untuk kegiatan sosial atau hobi, karena ini adalah katup pelepas stres yang efektif.</li>
+                            </ul>
+                            </p>
+                            {% elif result == "High" %}
+                            <h5><strong>Tingkat Stres Tinggi (High) 🚨</strong></h5>
+                            <p><strong>Analisis:</strong> Anda sedang menghadapi tekanan yang signifikan, kemungkinan besar disebabkan oleh kurangnya keseimbangan antara jam belajar tinggi, kurang tidur, dan minimnya aktivitas fisik/sosial. Kondisi ini dapat mengganggu performa belajar dan kesehatan mental Anda.</p>
+                            <p><strong>Rekomendasi Utama (Tindakan Mendesak):</strong>
+                            <ul>
+                                <li>**Audit Waktu:** Catat kegiatan harian Anda selama 3 hari. Identifikasi area yang dapat dipotong untuk mendapatkan minimal 7 jam tidur. Tidur adalah perbaikan No. 1 untuk fungsi kognitif.</li>
+                                <li>**Gerak Sederhana:** Lakukan jalan kaki ringan 10-15 menit di luar ruangan setiap hari. Jangan anggap ini sebagai olahraga berat, tetapi sebagai kebutuhan wajib untuk menjernihkan pikiran.</li>
+                                <li>**Cari Bantuan:** Segera bicarakan beban tugas atau kesulitan dengan orang tua, guru, atau konselor sekolah. Minta dukungan adalah tanda kekuatan, bukan kelemahan.</li>
+                            </ul>
+                            </p>
+                            {% endif %}
+
+                            <hr class="my-4">
+                            <h6 class="text-muted">Disclaimer: Prediksi ini bersifat indikatif. Jika Anda merasa kewalahan, segera cari dukungan dari konselor sekolah atau profesional kesehatan mental.</h6>
+                        </div>
+
+                        <a href="/" class="btn btn-outline-secondary bg-danger text-white">Kembali ke Kuisioner</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mengambil nama dari localStorage (sama seperti file index.html sebelumnya)
+        document.addEventListener("DOMContentLoaded", function () {
+            const nama = localStorage.getItem("namaUser");
+            if (nama) {
+                document.getElementById("output-nama").textContent = nama;
+            }
+        });
+    </script>
+</body>
+
+</html>
